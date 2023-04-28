@@ -1,0 +1,24 @@
+
+type httpMethods = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'
+
+export const useHttp = () => {
+    const request = async (url: string, method: httpMethods = 'GET', body: any = null, headers = {'Content-Type': 'application/json'}) => {
+
+        try {
+            const response = await fetch(url, {method, body, headers});
+
+            if (!response.ok) {
+                throw new Error(`Could not fetch ${url}, status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            return data;
+        } catch(e) {
+            console.log(e)
+            throw e;
+        }
+    };
+
+    return {request}
+}
